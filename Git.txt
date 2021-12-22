@@ -16,3 +16,22 @@ git status
 
 # 버전 로그 보여줌(커밋 로그 보여줌)
 git log
+git log -p
+git log --oneline
+
+# 원격 저장소 연결
+git remote add origin 
+
+# 원격 저장소 연결 여부 확인
+git remote -v
+origin  https://github.com/Hongbi-Kim/TIL.git (fetch)
+origin  https://github.com/Hongbi-Kim/TIL.git (push)
+
+
+git push origin master
+git push -u origin master 한번 만 쓰면
+git push만 치면 된다.
+
+
+
+
