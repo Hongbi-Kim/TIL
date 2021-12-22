@@ -1,0 +1,18 @@
+# Git을 이용한 버전관리 작성자 등록(딱 1번만)
+git config --global user.name hongbi
+git config --global user.email khb1620@naver.com
+
+# 어떤 폴더를 Git으로 버전관리 하겠다.
+git init
+
+# Working Directory -> Staging Area
+git add a.txt
+
+# Staging Area -> Commits(버전)
+git commit -m "first commit"
+
+# 현재 Git이 관리하는 파일의 상태
+git status
+
+# 버전 로그 보여줌(커밋 로그 보여줌)
+git log
