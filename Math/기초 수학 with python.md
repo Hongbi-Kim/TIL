@@ -39,3 +39,49 @@ solve((equation_3, equation_4),dict=True)
 #[{x: 1, y: -1}]
 ```
 
+
+
+## 2. 지수와 제곱근
+
+### 1. 거듭제곱근
+
+```python
+2**5
+#32
+```
+
+
+
+```python
+import math
+math.sqrt(9)
+#3
+```
+
+
+
+### 2. 전개
+
+- `from sympy import expand, factor, Symbol`
+
+```python
+from sympy import expand, factor, Symbol
+x = Symbol('x')
+x
+#𝑥
+```
+
+```python
+expand((x+1)*(x+5))
+𝑥2+6𝑥+5
+```
+
+
+
+### 3. 인수분해
+
+```python
+factor(x**2 + 6*x + 5)
+#(𝑥+1)(𝑥+5)
+```
+
