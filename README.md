@@ -2,7 +2,7 @@
 
 - 매일 매일 공부한 <u>내용</u>을 기록하는 곳입니다.
 - 1일 1커밋을 목표로 합니다.
-- <u>무엇</u>을 공부했는지는 [블로그](https://blog.naver.com/hongbi222)에 시간 순서대로 기록해두었습니다. (TIL 메뉴)
+- <u>무엇</u>을 공부했는지는 [블로그](https://blog.naver.com/hongbi222)에 시간 순서대로 기록해두었습니다. ([TIL 메뉴](https://blog.naver.com/PostList.naver?blogId=hongbi222&from=postList&categoryNo=42))
 
 
 
