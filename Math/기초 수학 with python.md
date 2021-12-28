@@ -129,3 +129,39 @@ ma.log(4,2)
 # 2
 ```
 
+
+
+## 4. 함수의 극한과 연속
+
+```python
+from sympy import Limit, S, Symbol
+```
+
+
+
+- x 변수를 생성, x가 0으로 한없이 가까워질 때, 1/x에 대한 극한값
+
+```python
+x = Symbol('x')
+Limit(1/x,x,S.Infinity).doit()
+# 0
+```
+
+
+
+> 우극한
+
+```python
+Limit(1/x,x,0).doit()
+# ∞
+```
+
+
+
+> 좌극한
+
+```python
+Limit(1/x,x,0,dir='-').doit()
+# -∞
+```
+
