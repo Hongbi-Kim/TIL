@@ -165,3 +165,15 @@ Limit(1/x,x,0,dir='-').doit()
 # -∞
 ```
 
+
+
+## 5. 미분
+
+### 1.
+
+1. 평균값 정리
+2. 롤의 정리(Rolle's theorem)
+
+   ![img](기초 수학 with python.assets/DRW000050b00535.gif)  
+
+  ![img](기초 수학 with python.assets/DRW000050b00530.gif)  
