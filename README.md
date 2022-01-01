@@ -4,6 +4,8 @@
 - 1일 1커밋을 목표로 합니다.
 - <u>무엇</u>을 공부했는지는 [블로그](https://blog.naver.com/hongbi222)에 시간 순서대로 기록해두었습니다. ([TIL 메뉴](https://blog.naver.com/PostList.naver?blogId=hongbi222&from=postList&categoryNo=42))
 
+- 참고 그림이 깨지는 경우 블로그에 따로 정리해두었습니다.
+
 
 
 ## 분류
@@ -34,3 +36,12 @@
 
 - 기초 수학 with python
 
+
+
+### Recommendsystem
+
+- 추천시스템의 이해
+
+
+
+### Crawling
