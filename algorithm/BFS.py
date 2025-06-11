@@ -142,3 +142,4 @@ def catch_me(cony, brown):
                 if 0 <= next_pos <= MAX and not visited[time % 2][next_pos]:
                     visited[time % 2][next_pos] = True
                     queue.append((next_pos, time))
+
