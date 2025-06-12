@@ -143,3 +143,86 @@ def catch_me(cony, brown):
                     visited[time % 2][next_pos] = True
                     queue.append((next_pos, time))
 
+#######################################################################################################################
+# 2021 카카오 채용연계형 인턴십 → 거리두기 확인하기
+#######################################################################################################################
+place = [["POOOP", "OXXOX", "OPXPX", "OOXOX", "POXXP"], 
+         ["POOPX", "OXPXP", "PXXXO", "OXXXO", "OOOPP"], 
+         ["PXOPX", "OXOXP", "OXPOX", "OXXOP", "PXPOX"], 
+         ["OOOXX", "XOOOX", "OOOXX", "OXOOX", "OOOOO"], 
+         ["PXPXP", "XPXPX", "PXPXP", "XPXPX", "PXPXP"]]
+
+from collections import deque
+
+dx = [1, -1, 0, 0] # 동, 서, 남, 북
+dy = [0, 0, 1, -1]
+
+def is_valid(place):
+    dx = [1, -1, 0, 0] # 동, 서, 남, 북
+    dy = [0, 0, 1, -1]
+
+    for x in range(5):
+        for y in range(5):
+            if place[x][y] == "P":
+                continue
+
+            queue = deque()
+            queue.append((x, y, 0)) # (x, y, 거리)
+            visited = [[False]*5 for _ in range(5)]
+            visited[x][y] = True
+
+            while queue:
+                nx, ny, dist = queue.popleft()
+                if dist >= 1 and place[nx][ny] == "P": # 거리가 2 이상이면 더 이상 탐색하지 않음
+                    return 0
+                if dist >= 2:
+                    continue # 거리가 2 이상이면 더 이상 탐색하지 않음
+                for dir in range(4):
+                    nx = x + dx[dir]
+                    ny = y + dy[dir]
+
+                    if 0 <= nx < 5 and 0 <= ny < 5 and not visited[nx][ny]:
+                        if place[nx][ny] != 'X':  # 💡 파티션(X)이면 진행하지 않음!
+                            visited[nx][ny] = True
+                            queue.append((nx, ny, dist + 1))
+    return 1
+
+
+def solution(places):
+    return [is_valid(place) for place in places]
+
+
+def is_valid_direct(place):
+    people = []
+    for i in range(5):
+        for j in range(5):
+            if place[i][j] == 'P':
+                people.append((i, j))
+    
+    for r, c in people:
+        # 맨해튼 거리 1
+        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < 5 and 0 <= nc < 5:
+                if place[nr][nc] == 'P':
+                    return 0
+        
+        # 맨해튼 거리 2 - 직선
+        for dr, dc in [(-2, 0), (2, 0), (0, -2), (0, 2)]:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < 5 and 0 <= nc < 5:
+                if place[nr][nc] == 'P':
+                    mr, mc = r + dr // 2, c + dc // 2
+                    if place[mr][mc] != 'X':
+                        return 0
+        
+        # 맨해튼 거리 2 - 대각선
+        for dr, dc in [(-1, -1), (-1, 1), (1, -1), (1, 1)]:
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < 5 and 0 <= nc < 5:
+                if place[nr][nc] == 'P':
+                    path1_blocked = place[r + dr][c] == 'X'
+                    path2_blocked = place[r][c + dc] == 'X'
+                    if not (path1_blocked and path2_blocked):
+                        return 0
+    return 1
