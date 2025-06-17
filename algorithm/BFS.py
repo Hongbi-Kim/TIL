@@ -154,29 +154,30 @@ place = [["POOOP", "OXXOX", "OPXPX", "OOXOX", "POXXP"],
 
 from collections import deque
 
-dx = [1, -1, 0, 0] # 동, 서, 남, 북
-dy = [0, 0, 1, -1]
-
 def is_valid(place):
-    dx = [1, -1, 0, 0] # 동, 서, 남, 북
+    dx = [1, -1, 0, 0]
     dy = [0, 0, 1, -1]
 
-    for x in range(5):
-        for y in range(5):
-            if place[x][y] == "P":
-                continue
+    for i in range(5):
+        for j in range(5):
+            if place[i][j] != 'P':
+                continue # 사람(P)이 아니면 건너뜀
 
             queue = deque()
-            queue.append((x, y, 0)) # (x, y, 거리)
-            visited = [[False]*5 for _ in range(5)]
-            visited[x][y] = True
+            queue.append((i, j, 0))  # (x, y, 거리)
+
+            visited = [[False] * 5 for _ in range(5)]
+            visited[i][j] = True
 
             while queue:
-                nx, ny, dist = queue.popleft()
-                if dist >= 1 and place[nx][ny] == "P": # 거리가 2 이상이면 더 이상 탐색하지 않음
-                    return 0
+                x, y, dist = queue.popleft()
+
+                if dist >= 1 and place[x][y] == 'P':
+                    return 0  # 다른 사람과 맨해튼 거리 2 이하, 파티션 없이 마주침
+
                 if dist >= 2:
-                    continue # 거리가 2 이상이면 더 이상 탐색하지 않음
+                    continue  # 거리 2 넘으면 더 볼 필요 없음
+
                 for dir in range(4):
                     nx = x + dx[dir]
                     ny = y + dy[dir]
@@ -186,7 +187,6 @@ def is_valid(place):
                             visited[nx][ny] = True
                             queue.append((nx, ny, dist + 1))
     return 1
-
 
 def solution(places):
     return [is_valid(place) for place in places]

@@ -171,3 +171,38 @@ def get_correct_parentheses(s):
     return s if is_correct_parentheses(s) else change_to_correct_parentheses(s)
 
 
+#######################################################################################################################
+# 2018 KAKAO BLIND RECRUITMENT: [3차] 방금그곡 https://school.programmers.co.kr/learn/courses/30/lessons/17683
+#######################################################################################################################
+
+import time
+m = "ABC"
+musicinfos = ["12:00,12:14,HELLO,C#DEFGAB", "13:00,13:05,WORLD,ABCDEF"]
+
+def convert_sharp_notes(notes):
+    return notes.replace('C#', 'c').replace('D#', 'd').replace('F#', 'f') \
+                .replace('G#', 'g').replace('A#', 'a')
+
+def get_minutes(start, end):
+    sh, sm = map(int, start.split(":"))
+    eh, em = map(int, end.split(":"))
+    return (eh * 60 + em) - (sh * 60 + sm)
+
+def solution(m, musicinfos):
+    m = convert_sharp_notes(m)
+    matched_song = ('(None)', 0)  # (제목, 재생시간)
+
+    for info in musicinfos:
+        start, end, title, sheet = info.split(',')
+        duration = get_minutes(start, end)
+        sheet = convert_sharp_notes(sheet)
+
+        full_played = (sheet * (duration // len(sheet))) + sheet[:duration % len(sheet)]
+
+        if m in full_played:
+            if duration > matched_song[1]: # 조건이 일치하는 경우, 재생시간이 긴 곡을 반환
+                matched_song = (title, duration)
+
+    return matched_song[0]
+
+

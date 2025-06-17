@@ -1,0 +1,1 @@
+https://github.com/langchain-kr/langchain-tutorial/tree/main/Ch01.%20Langchain%20Basics
