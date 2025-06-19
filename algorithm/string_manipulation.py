@@ -205,4 +205,135 @@ def solution(m, musicinfos):
 
     return matched_song[0]
 
+#######################################################################################################################
+# 2022 KAKAO BLIND RECRUITMENT: k진수에서 소수 개수 구하기 (https://school.programmers.co.kr/learn/courses/30/lessons/92335)
+#######################################################################################################################
+n = 437674
+k = 3
+
+# k진수는 숫자를 k개의 숫자(기호)를 사용해 표현하는 방식
+def to_k_base(n, k):
+    result = ''
+    while n > 0:
+        result = str(n % k) + result
+        n //= k
+    return result
+
+# 소수는 1과 자기 자신만을 약수로 가지는 자연수
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n**0.5) + 1): # √n까지만 확인
+        if n % i == 0:
+            return False
+    return True
+
+def solution(n, k):
+    k_base = to_k_base(n, k)
+    parts = k_base.split('0')
+    
+    result = 0
+    for p in parts:
+        if p == '':
+            continue
+        if is_prime(int(p)):
+            result += 1
+    return result
+
+#######################################################################################################################
+# 2023 KAKAO BLIND RECRUITMENT: 개인전보 수집 유효기간
+#######################################################################################################################
+today = "2022.05.19"
+terms= ["A 6", "B 12", "C 3"]
+privacies = ["2021.05.02 A", "2021.07.01 B", "2022.02.19 C", "2022.02.20 C"]
+
+def date_to_days(date):
+    y, m, d = map(int, date.split("."))
+    return y*12*28+m*28+d
+
+def solution(today, terms, privacies):
+    term_dict = {}
+    for term in terms:
+        tm_type, tm_m = term.split(" ")
+        term_dict[tm_type] = tm_m
+
+    answer = []
+    today_days = date_to_days(today)
+    for i, privacy in enumerate(privacies):
+        start_days = date_to_days(privacy.split(" ")[0])
+        type = privacy.split(" ")[1]
+        expiry_days = start_days + int(term_dict[type])*28
+
+        if expiry_days <= today_days:
+            answer.append(i + 1)
+
+    return answer
+
+# 28일로 고정되어있지 않을 때
+from datetime import datetime
+from dateutil.relativedelta import relativedelta  # pip install python-dateutil
+
+today = datetime.strptime(today, "%Y.%m.%d") # datetime.datetime(2022, 5, 19, 0, 0)
+dt = datetime.strptime("2022.05.19 13:45", "%Y.%m.%d %H:%M") # datetime.datetime(2022, 5, 19, 13, 45)
+print("연:", dt.year)    # 2022
+print("월:", dt.month)   # 5
+print("일:", dt.day)     # 19
+print("시:", dt.hour)    # 13
+print("분:", dt.minute)  # 45
+print("초:", dt.second)  # 0 (초를 넣지 않았기 때문에 기본값 0)
+
+term_dict = {t.split()[0]: int(t.split()[1]) for t in terms} # {'A': 6, 'B': 12, 'C': 3}
+result = []
+
+for i, p in enumerate(privacies):
+    date_str, term_type = p.split()
+    collected = datetime.strptime(date_str, "%Y.%m.%d")
+    expire_date = collected + relativedelta(months=term_dict[term_type])
+    
+    # 당일 포함 X → 유효기간의 하루 전까지 보관 가능
+    if expire_date <= today:
+        result.append(i + 1)
+
+
+#######################################################################################################################
+# 2018 KAKAO BLIND RECRUITMENT: [1차] 다트게임
+#######################################################################################################################
+
+dartResult = "1S2D*3T"
+
+scores = []
+i = 0
+length = len(dartResult)
+
+while i < length:
+    # 10인 경우를 따로 처리
+    if dartResult[i] == "1" and i+1 < length and dartResult[i+1] == "0":
+        score = 10
+        i += 2
+    else:
+        score = int(dartResult[i])
+        i += 1
+
+    # 보너스
+    bonus = dartResult[i]
+    if bonus == "S":
+        score = score ** 1
+    elif bonus == "D":
+        score = score ** 2
+    else: # bonus == "T"
+        score = score ** 3
+    i += 1
+
+    # 옵션
+    if i < length and dartResult[i] in "*#":
+        if dartResult[i] == "*":
+            score *= 2
+            if scores:
+                scores[-1] *= 2
+        else:
+            score *= -1
+        i += 1
+
+    scores.append(score)
+sum(scores)     
 
