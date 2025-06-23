@@ -226,3 +226,53 @@ def is_valid_direct(place):
                     if not (path1_blocked and path2_blocked):
                         return 0
     return 1
+
+#######################################################################################################################
+# 백준 10845 → 큐 https://www.acmicpc.net/problem/10845
+#######################################################################################################################
+from collections import deque
+import sys
+input = sys.stdin.readline
+
+n = int(input())
+queue = deque()
+
+for _ in range(n):
+    command = input().split()
+    
+    if command[0] == "push":
+        # 정수 X를 큐에 추가
+        x = int(command[1])
+        queue.append(x)
+    
+    elif command[0] == "pop":
+        # 큐에서 가장 앞의 정수를 제거하고 출력
+        if queue:
+            print(queue.popleft())
+        else:
+            print(-1)
+    
+    elif command[0] == "size":
+        # 큐에 들어있는 정수의 개수 출력
+        print(len(queue))
+    
+    elif command[0] == "empty":
+        # 큐가 비어있으면 1, 아니면 0 출력
+        if queue:
+            print(0)
+        else:
+            print(1)
+    
+    elif command[0] == "front":
+        # 큐의 가장 앞 정수 출력
+        if queue:
+            print(queue[0])
+        else:
+            print(-1)
+    
+    elif command[0] == "back":
+        # 큐의 가장 뒤 정수 출력
+        if queue:
+            print(queue[-1])
+        else:
+            print(-1)

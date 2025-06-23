@@ -337,3 +337,23 @@ while i < length:
     scores.append(score)
 sum(scores)     
 
+
+#######################################################################################################################
+# 2018 KAKAO BLIND RECRUITMENT: 비밀지도
+#######################################################################################################################
+
+n=5
+arr1=[9, 20, 28, 18, 11]
+arr2=[30, 1, 21, 17, 28]
+
+format(9, "b")
+
+answer = []
+for i in range(n):
+    # 비트 OR 연산
+    combined = arr1[i] | arr2[i]
+    # 이진수로 변환, n자리로 맞추기
+    binary_str = format(combined, 'b').zfill(n)
+    # '#'과 ' '로 변환
+    line = ''.join(['#' if c == '1' else ' ' for c in binary_str])
+    answer.append(line)
