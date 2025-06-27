@@ -357,3 +357,66 @@ for i in range(n):
     # '#'과 ' '로 변환
     line = ''.join(['#' if c == '1' else ' ' for c in binary_str])
     answer.append(line)
+
+#######################################################################################################################
+# 2018 KAKAO BLIND RECRUITMENT: [3차] 파일명 정렬
+#######################################################################################################################
+files = ["img12.png", "img10.png", "img02.png", "img1.png", "IMG01.GIF", "img2.JPG"]
+
+def solution(files):
+    def split_file(index, file):
+        head, number, i = '', '', 0
+        length = len(file)
+
+        while i < length and not file[i].isdigit():
+            head += file[i]
+            i += 1
+
+        while i < length and file[i].isdigit():
+            number += file[i]
+            i += 1
+
+        return (head.lower(), int(number), index, file)  # index 추가!
+
+
+    # 튜플 정렬 → 정렬 기준은 head, number, index 순서
+    # i = 0
+    # f = files[0]
+    for i, f in enumerate(files):
+        files[i] = split_file(i, f)
+        # files[i] = (files[i][0], files[i][1], i, files[i][3])  # index 추가
+    sorted_files = sorted(files)
+    
+    # 결과에서 파일명만 추출
+    return [x[3] for x in sorted_files]
+
+from math import ceil
+from collections import defaultdict
+fees = [180, 5000, 10, 600]
+records = ["05:34 5961 IN", "06:00 0000 IN", "06:34 0000 OUT", "07:59 5961 OUT", "07:59 0148 IN", "18:59 0000 IN", "19:09 0148 OUT", "22:59 5961 IN", "23:00 5961 OUT"]
+
+basic_time, basic_fee, unit_time, unit_fee = fees
+in_record = dict()
+total_time = defaultdict(int)
+
+for record in records:
+    timerecord, number, state = record.split()
+    timerecord = int(timerecord.split(":")[0]) * 60 + int(timerecord.split(":")[1])
+
+    if state == "IN":
+        in_record[number] = timerecord
+    else:
+        in_time = in_record.pop(number)
+        total_time[number] += timerecord - in_time
+
+for number, in_time in in_record.items():
+    total_time[number] += (23*60 + 59) - in_time
+
+result = []
+for number in sorted(total_time.keys()):
+    t = total_time[number]
+    if t <= basic_time:
+        result.append(basic_fee)
+    else:
+        extra_time = ceil((t - basic_time) / unit_time)
+        result.append(basic_fee + extra_time * unit_fee)

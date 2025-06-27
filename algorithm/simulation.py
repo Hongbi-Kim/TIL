@@ -148,3 +148,76 @@ def is_available_to_take_out_only_red_marble(game_map):
                 queue.append((next_red_row, next_red_col, next_blue_row, next_blue_col, try_count + 1))
 
     return False
+
+
+m=4	
+n=5	
+board = ["CCBDE", "AAADE", "AAABF", "CCBBF"]
+
+
+# 틀린 버전
+def solution(m, n, board):
+    visited = []
+    length = 1
+    answer = 0
+    while length > 0:
+        for i in range(m-1): # 높이
+            for j in range(n-1): # 폭
+                if (board[i][j] == board[i][j+1] == board[i+1][j] == board[i+1][j+1]) and board[i][j] != "X":
+                    visited.append((i,j))
+                    visited.append((i,j+1))
+                    visited.append((i+1,j))
+                    visited.append((i+1, j+1))
+        visited = list(set(visited))
+        length = len(visited)
+        answer += length
+        for tup in visited:
+            x, y = tup
+            if x != m-1:
+                temp = list(board[x+1])   
+                temp[y] = board[x][y]         
+                board[x] = ''.join(temp)
+        temp = list(board[x])   
+        temp[y] = 'X'         
+        board[x] = ''.join(temp)
+    return answer
+
+  
+
+def solution(m, n, board):
+    # 1. 문자열 배열을 리스트의 리스트로 변환
+    board = [list(row) for row in board]
+    total_removed = 0
+
+    while True:
+        # 2. 지워질 위치 찾기
+        to_remove = set()
+        for i in range(m - 1):
+            for j in range(n - 1):
+                block = board[i][j]
+                if block == "0":
+                    continue
+                if block == board[i+1][j] == board[i][j+1] == board[i+1][j+1]:
+                    to_remove |= {(i, j), (i+1, j), (i, j+1), (i+1, j+1)} # 집합을 사용하여 중복 제거
+
+        # 3. 더 이상 지울 게 없으면 종료
+        if not to_remove:
+            break
+
+        # 4. 블록 지우기
+        for i, j in to_remove:
+            board[i][j] = "0"
+        total_removed += len(to_remove)
+
+        # 5. 블록 떨어뜨리기
+        for j in range(n):  # 열 단위
+            empty = []
+            for i in range(m-1, -1, -1):  # 아래에서 위로
+                if board[i][j] == "0":
+                    empty.append(i)
+                elif empty:
+                    empty_i = empty.pop(0)
+                    board[empty_i][j], board[i][j] = board[i][j], "0"
+                    empty.append(i)
+
+    return total_removed
