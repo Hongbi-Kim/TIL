@@ -276,3 +276,39 @@ for _ in range(n):
             print(queue[-1])
         else:
             print(-1)
+
+#######################################################################################################################
+# 이모티콘 할인행사 (https://school.programmers.co.kr/learn/courses/30/lessons/150368)
+#######################################################################################################################
+from itertools import product # 모든 조합
+
+users = [[40, 10000], [25, 10000]]
+emoticons = [7000, 9000]
+
+discount_rates = [10, 20, 30, 40]
+best = [0, 0] # 가입자수, 매출액
+
+list(product(discount_rates, repeat = len(emoticons)))
+# [(10, 10), (10, 20), (10, 30), (10, 40), (20, 10), (20, 20), (20, 30), (20, 40), (30, 10), (30, 20), (30, 30), (30, 40), (40, 10), (40, 20), (40, 30), (40, 40)]
+
+for discount in product(discount_rates, repeat = len(emoticons)):
+    plus_members = 0
+    sales = 0
+
+    for ratio, price_limit in users:
+        total = 0
+        for i in range(len(emoticons)):
+            if discount[i] >= ratio: # 사는 경우
+                discounted_price = emoticons[i] * (100 - discount[i]) // 100
+                total += discounted_price
+        
+        if total >= price_limit:
+            plus_members += 1
+        else:
+            sales+= total
+    
+    if plus_members > best[0]:
+        best = [plus_members, sales]
+    elif plus_members == best[0] and sales > best[1]:
+        best = [plus_members, sales]
+
