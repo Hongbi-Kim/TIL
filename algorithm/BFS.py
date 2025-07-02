@@ -312,3 +312,48 @@ for discount in product(discount_rates, repeat = len(emoticons)):
     elif plus_members == best[0] and sales > best[1]:
         best = [plus_members, sales]
 
+from itertools import permutations, combinations
+list(permutations([1,2,3], 2))
+list(combinations([1,2,3], 2))
+list(product([1,2], repeat=2))
+list(permutations(range(3)))
+
+balance = 600
+countries = [[70, 350], [100, 550], [350, 400]]
+visited = 0
+max_visited = 0
+def solution(balance, countries):
+    for order in list(permutations([0,1,2])):
+        for i in order:
+            if balance < countries[i][1]: # 최소 필요 비용
+                break
+            balance -= countries[i][0]
+            visited += 1
+        if max_visited < visited:
+            max_visited = visited
+    return max_visited
+
+#######################################################################################################################
+# 네트워크 (https://school.programmers.co.kr/learn/courses/30/lessons/43162)
+#######################################################################################################################
+
+from collections import deque
+
+def solution(n, computers):
+    visited = [False] * n
+    answer = 0
+    
+    for i in range(n):
+        if not visited[i]:
+            queue = deque([i])
+            visited[i] = True
+            
+            while queue:
+                current = queue.popleft()
+                for j in range(n):
+                    if computers[i][j] == 1 and not visited[j]:
+                        queue.append(j)
+                        visited[j] = True
+        answer += 1
+
+    return answer
