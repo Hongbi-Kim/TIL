@@ -420,3 +420,73 @@ for number in sorted(total_time.keys()):
     else:
         extra_time = ceil((t - basic_time) / unit_time)
         result.append(basic_fee + extra_time * unit_fee)
+
+#######################################################################################################################
+# 1920: 수 찾기
+#######################################################################################################################
+
+import sys
+
+input = sys.stdin.readline
+
+n = int(input())
+A = set(map(int, input().split()))
+m = int(input())
+B = list(map(int, input().split()))
+
+for b in B:
+    if b in A:
+        print(1)
+    else:
+        print(0)
+
+N, K = map(int, input().split())
+lines = list(map(int, input().split()))
+N = 4
+K = 11
+lines = [802, 743, 457, 539]
+
+import sys
+
+input = sys.stdin.readline
+
+N, K = map(int, input().split())
+lines = list(map(int, input().split()))
+max_length = sorted(lines)[0]
+
+ctx = 0
+while ctx < K:
+    ctx = 0
+    for line in lines:
+        ctx += line // max_length
+    if K // ctx > 1:
+        max_length = max_length // (K // ctx)
+    elif K // ctx == 1 and not ctx >= K:
+        max_length -= 1
+
+from itertools import combinations
+list(combinations([1,2,3,4],2))
+list(combinations(A,2))
+
+A = "ACAYKP"
+B = "CAPCAK"
+
+# 입력
+A = input().strip()
+B = input().strip()
+
+# DP 테이블 초기화
+dp = [[0] * (len(B) + 1) for _ in range(len(A) + 1)]
+
+# DP 진행
+for i in range(1, len(A) + 1):
+    for j in range(1, len(B) + 1):
+        if A[i - 1] == B[j - 1]:
+            dp[i][j] = dp[i - 1][j - 1] + 1
+        else:
+            dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+
+# 출력
+print(dp[len(A)][len(B)])
+
+
