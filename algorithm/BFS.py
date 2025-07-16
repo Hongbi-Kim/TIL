@@ -357,3 +357,31 @@ def solution(n, computers):
         answer += 1
 
     return answer
+
+#######################################################################################################################
+# 다리를 지나는 트럭
+#######################################################################################################################
+
+from collections import deque
+bridge_length = 2
+weight = 10	
+truck_weights = [7,4,5,6]
+
+time = 0
+bridge = deque([0]*bridge_length)
+truck_weights = deque(truck_weights)
+total_weight = 0
+
+while bridge:
+    time +=1
+    out = bridge.popleft()
+    total_weight -= out
+    
+    if truck_weights:
+        if total_weight + truck_weights[0] <= weight:
+            truck = truck_weights.popleft()
+            bridge.append(truck)
+            total_weight += truck
+        else:
+            bridge.append(0)
+

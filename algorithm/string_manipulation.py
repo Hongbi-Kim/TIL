@@ -490,3 +490,76 @@ for i in range(1, len(A) + 1):
 print(dp[len(A)][len(B)])
 
 
+#######################################################################################################################
+# 방금그곡
+#######################################################################################################################
+m = "ABCDEFG"
+musicinfos = ["12:00,12:14,HELLO,CDEFGAB", "13:00,13:05,WORLD,ABCDEF"]
+
+def solution(m, musicinfos):
+    def parse_melody(melody):
+        """멜로디를 개별 음표로 파싱"""
+        notes = []
+        i = 0
+        while i < len(melody):
+            if i + 1 < len(melody) and melody[i + 1] == '#':
+                notes.append(melody[i:i+2])
+                i += 2
+            else:
+                notes.append(melody[i])
+                i += 1
+        return notes
+    
+    def time_to_minutes(time_str):
+        """시간을 분 단위로 변환"""
+        h, m = map(int, time_str.split(':'))
+        return h * 60 + m
+    
+    def expand_melody(sheet, play_time):
+        """악보를 재생 시간만큼 확장"""
+        notes = parse_melody(sheet)
+        if not notes or play_time <= 0:
+            return []
+        
+        result = []
+        for i in range(play_time):
+            result.append(notes[i % len(notes)])
+        return result
+    
+    def contains_melody(played_notes, target_notes):
+        """played_notes에 target_notes가 포함되어 있는지 확인"""
+        if len(target_notes) == 0:
+            return True
+        if len(played_notes) < len(target_notes):
+            return False
+        
+        # 슬라이딩 윈도우로 비교
+        for i in range(len(played_notes) - len(target_notes) + 1):
+            if played_notes[i:i+len(target_notes)] == target_notes:
+                return True
+        return False
+    
+    target_notes = parse_melody(m)
+    best_duration = -1
+    best_title = "(None)"
+    
+    for info in musicinfos:
+        start_time, end_time, title, sheet = info.split(',')
+        
+        # 재생 시간 계산
+        start_minutes = time_to_minutes(start_time)
+        end_minutes = time_to_minutes(end_time)
+        
+        duration = end_minutes - start_minutes
+        
+        # 실제 재생된 멜로디 생성
+        played_notes = expand_melody(sheet, duration)
+        
+        # 멜로디 포함 여부 확인
+        if contains_melody(played_notes, target_notes):
+            # 더 긴 재생 시간이면 업데이트
+            if duration > best_duration:
+                best_duration = duration
+                best_title = title
+    
+    return best_title
