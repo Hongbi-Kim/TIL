@@ -385,3 +385,70 @@ while bridge:
         else:
             bridge.append(0)
 
+
+
+from collections import deque
+
+
+bridge = deque([0]*bridge_length)
+
+queue = deque(truck_weights)
+
+cur_truck = queue.popleft() # 7
+
+bridge.append(cur_truck) 
+bridge.popleft()
+cur_weight = cur_truck
+
+time = 1
+
+while bridge:
+    # print(bridge)
+    # if queue:
+    #     next_truck = queue.popleft() # 4
+    # else:
+    #     next_truck = 0
+    # print("next_truck", next_truck)
+    if queue:
+        if cur_weight + queue[0] <= weight: # 제한 무게보다 낮으면 추가
+            next_truck = queue.popleft()
+            print("next_truck",next_truck)
+            cur_weight += next_truck
+            bridge.append(next_truck)
+        else:
+            bridge.append(0)
+    out = bridge.popleft()
+    cur_weight -= out
+    time += 1
+    print(bridge)
+
+
+#######################################################################################################################
+# 게임 맵 최단거리
+#######################################################################################################################
+maps = [[1,0,1,1,1],[1,0,1,0,1],[1,0,1,1,1],[1,1,1,0,1],[0,0,0,0,1]] # 11
+maps = [[1,0,1,1,1],[1,0,1,0,1],[1,0,1,1,1],[1,1,1,0,0],[0,0,0,0,1]] # -1
+
+from collections import deque
+    
+n,m = len(maps), len(maps[0])
+dx, dy = [1,-1,0,0], [0,0,1,-1]
+
+visited = [[-1 for _ in range(m)] for _ in range(n)]
+# visited = [[-1]*m for _ in range(n)]
+visited[0][0] = 1
+
+queue = deque([(0,0)])
+
+while queue:
+    x, y = queue.popleft()
+    
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+        
+        if 0 <= nx < n and 0 <= ny < m and visited[nx][ny] == -1 and maps[nx][ny] == 1:
+            queue.append([nx, ny])
+            visited[nx][ny] = visited[x][y] + 1
+    
+visited[n-1][m-1]

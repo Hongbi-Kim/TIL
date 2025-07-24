@@ -563,3 +563,47 @@ def solution(m, musicinfos):
                 best_title = title
     
     return best_title
+
+
+#######################################################################################################################
+# 가장큰수
+#######################################################################################################################
+
+numbers = [6, 10, 2]
+def solution(numbers):
+    numbers = list(map(str, numbers))
+    numbers.sort(key=lambda x: x*3, reverse=True)
+    return str(int(''.join(numbers)))
+
+#######################################################################################################################
+# 메뉴 리뉴얼
+#######################################################################################################################
+
+
+orders = ["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"]
+course = [2,3,4]
+# ["AC", "ACDE", "BCFG", "CDE"]
+
+from itertools import combinations
+from collections import Counter
+
+def solution(orders, course):
+    result = []
+    # c = 2
+    # order = "ABCFG"
+    for c in course:
+        combs = []
+        for order in orders:
+            sorted_order = sorted(order)
+            combs += combinations(sorted_order, c)
+        
+        count = Counter(combs)
+
+        if count:
+            max_cnt = max(count.values())
+            if max_cnt >= 2:
+                for comb in count:
+                    if count[comb] == max_cnt:
+                        result.append("".join(comb))
+
+    return sorted(result)
