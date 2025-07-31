@@ -438,7 +438,7 @@ visited = [[-1 for _ in range(m)] for _ in range(n)]
 # visited = [[-1]*m for _ in range(n)]
 visited[0][0] = 1
 
-queue = deque([(0,0)])
+queue = deque([(0,0)]) # queue = deque([[0,0]])??
 
 while queue:
     x, y = queue.popleft()
@@ -449,6 +449,7 @@ while queue:
         
         if 0 <= nx < n and 0 <= ny < m and visited[nx][ny] == -1 and maps[nx][ny] == 1:
             queue.append([nx, ny])
+            print(i, queue)
             visited[nx][ny] = visited[x][y] + 1
     
 visited[n-1][m-1]
