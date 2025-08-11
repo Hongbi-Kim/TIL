@@ -58,3 +58,58 @@ def solution(n, info):
     dfs(0, n, [0]*11)
 
     return answer if answer else [-1]
+
+#######################################################################################################################
+# 안전 영역 (https://www.acmicpc.net/problem/2468)
+#######################################################################################################################
+# 백준 버전
+import sys
+sys.setrecursionlimit(100000)
+input = sys.stdin.readline
+
+from collections import deque
+
+N = int(input())
+area = [list(map(int, input().split())) for _ in range(N)]
+
+n = 5
+area = [[6,8,2,6,2],[3,2,3,4,6],[6,7,3,3,2],[7,2,5,3,6],[8,9,5,2,7]]
+
+max_height = max(max(row) for row in area)
+max_safe_zone = 0
+
+dx = [0, 0, 1, -1]
+dy = [1, -1, 0, 0]
+
+def bfs(x, y, rain, visited):
+    queue = deque([(x, y)])
+    visited[x][y] = True
+
+    while queue:
+        cx, cy = queue.popleft()
+        for i in range(4):
+            nx, ny = cx + dx[i], cy + dy[i]
+            if 0 <= nx < N and 0 <= ny < N:  # 격자 밖이면 못 감(경계에 막힘)
+                if not visited[nx][ny] and area[nx][ny] > rain: # 이미 방문한 곳은 다시 안 감(중복 막음), # 잠긴 칸(<=rain)은 못 감(물에 막힘)
+                    visited[nx][ny] = True
+                    queue.append((nx, ny))
+
+for rain in range(max_height + 1):  # 비의 높이 0부터 최대 높이까지
+    visited = [[False]*N for _ in range(N)]
+    safe_zone_count = 0
+
+    for i in range(N):
+        for j in range(N):
+            if not visited[i][j] and area[i][j] > rain:
+                bfs(i, j, rain, visited)
+                safe_zone_count += 1
+
+    max_safe_zone = max(max_safe_zone, safe_zone_count)
+
+print(max_safe_zone)
+
+
+# 프로그래머스 input 형 
+
+n = 5
+areas = [[6,8,2,6,2],[3,2,3,4,6],[6,7,3,3,2],[7,2,5,3,6],[8,9,5,2,7]]
